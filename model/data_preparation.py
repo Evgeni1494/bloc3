@@ -2,6 +2,7 @@ import pandas as pd
 from scipy import stats
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
+import joblib
 
 def load_data(filepath):
     """ Charge les données depuis un fichier CSV. """
@@ -17,10 +18,12 @@ def add_interactions(data, col1, col2, new_col_name):
     return data
 
 def encode_features(data, categorical_features):
-    """ Encodage One-hot des variables catégorielles. """
+    """ Encodage One-hot des variables catégorielles et retourne l'encoder ajusté avec les données transformées. """
     one_hot_encoder = OneHotEncoder(handle_unknown='ignore')
     transformer = ColumnTransformer(transformers=[('cat', one_hot_encoder, categorical_features)], remainder='passthrough')
-    return transformer.fit_transform(data)
+    transformed_data = transformer.fit_transform(data)
+    return transformed_data, transformer
+
 
 def prepare_data(filepath):
     """ Fonction de haut niveau pour la préparation des données. """

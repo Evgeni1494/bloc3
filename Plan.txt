@@ -1,0 +1,91 @@
+Phase 1 : Planification et Configuration Initiale
+
+    Définir les objectifs et les spécifications de l'API.
+        Identifier les fonctionnalités de base, les endpoints nécessaires et les types de données à manipuler.
+
+        Types de Données à Manipuler
+
+    Données numériques : Année, valeurs des émissions (sorties du modèle).
+    Données catégorielles : Nom de l'État, nom du secteur, nom du combustible (nécessitent un encodage pour le traitement du modèle).
+
+        Fonctionnalités et Endpoints Nécessaires :
+
+    Endpoint de prédiction (/predict)
+        Méthode : POST
+        Input : Données JSON comprenant l'année, l'État, le secteur, et le type de combustible.
+        Output : Estimation des émissions de CO2.
+
+    Endpoint de tendance (/trends)
+        Méthode : GET
+        Input : Paramètres de filtre (année, État, secteur, type de combustible).
+        Output : Données historiques des émissions de CO2 pour les paramètres donnés.
+
+    Endpoint de metrics (/metrics)
+        Méthode : GET
+        Output : Métriques clés du modèle telles que l'erreur quadratique moyenne (MSE), le R², etc.
+
+
+        Déterminer les métriques clés à suivre pour le modèle.
+        Métriques Clés à Suivre pour le Modèle
+
+    MSE (Mean Squared Error) : Mesure la qualité de la prédiction du modèle, idéale pour les problèmes de régression.
+    R² (Coefficient de Détermination) : Indique dans quelle mesure les variables indépendantes prédisent la variable dépendante.
+    MAE (Mean Absolute Error) : Fournit une mesure de l'erreur entre les valeurs prédites et les valeurs réelles.
+
+    Mise en place de l'environnement de développement.
+        Installer Python, FastAPI, scikit-learn, pytest, MLflow, PostgreSQL, Grafana/Kibana, Docker, et toutes autres dépendances nécessaires.
+        Configurer un environnement virtuel pour le projet.
+
+
+
+    Initialiser un dépôt Git sur GitHub.
+        Créer la structure de dossiers de base du projet.
+        Ajouter un fichier .gitignore approprié pour Python et des fichiers de configuration.
+
+Phase 2 : Développement de l'API et du Modèle
+
+    Développement du modèle de machine learning.
+        Choisir un modèle simple (régression linéaire ou logistique).
+        Préparer un script de formation initial.
+
+    Création de l'API avec FastAPI.
+        Configurer les routes de base (/login, /predict, /metrics).
+        Intégrer l'authentification JWT dans FastAPI.
+
+    Écrire des tests pour le modèle et l'API.
+        Utiliser pytest pour créer des tests unitaires pour chaque fonction et endpoint.
+
+Phase 3 : MLOps et Automatisation
+
+    Configurer MLflow pour le suivi des expériences.
+        Établir une connexion avec une base de données pour stocker les résultats des expériences.
+
+    Mettre en place une base de données PostgreSQL.
+        Configurer les tables pour stocker les logs d'appels API et les prédictions.
+
+    Créer des dashboards avec Grafana ou Kibana.
+        Connecter les dashboards à la base de données pour afficher les métriques et les logs.
+
+    Automatiser l'entraînement du modèle.
+        Écrire des scripts pour la planification régulière de l'entraînement avec Apache Airflow ou cron jobs.
+
+Phase 4 : CI/CD et Documentation
+
+    Configurer un pipeline CI/CD avec GitHub Actions.
+        Automatiser les tests et le déploiement de l'API et des modèles.
+        Configurer des workflows pour l'intégration et la livraison continues.
+
+    Rédiger la documentation.
+        Documenter l'API, le modèle, et le système MLOps dans un fichier README.md.
+        Ajouter des docstrings dans le code pour une meilleure compréhension des fonctions et méthodes.
+
+Phase 5 : Déploiement et Tests Finale
+
+    Containeriser l'application avec Docker.
+        Créer un Dockerfile et un docker-compose.yml pour l'application et les services associés.
+
+    Déployer et tester l'application complète.
+        S'assurer que tout fonctionne comme prévu en environnement de production.
+
+    Révision et ajustements finaux.
+        Réviser le projet basé sur les retours initiaux et optimiser les performances.

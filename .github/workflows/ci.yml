@@ -1,27 +1,18 @@
 name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3   # Version mise à jour
+    - uses: actions/checkout@v4   # Correctement mis à jour pour utiliser la dernière version
 
-    - name: Set up Python
-      uses: actions/setup-python@v4  # Version mise à jour
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v4  # Utilise la version qui devrait être compatible avec Node.js 20
       with:
         python-version: '3.8'
-
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'  # Spécifie explicitement l'utilisation de Node.js 20
 
     - name: Install dependencies
       run: |

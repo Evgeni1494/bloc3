@@ -3,6 +3,7 @@ from scipy import stats
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import joblib
+import mlflow
 
 def load_data(filepath):
     """ Charge les données depuis un fichier CSV. """
@@ -26,9 +27,14 @@ def encode_features(data, categorical_features):
 
 
 def prepare_data(filepath):
-    """ Fonction de haut niveau pour la préparation des données. """
-    data = load_data(filepath)
-    data = remove_outliers(data, 'value')
-    data = add_interactions(data, 'fuel-name', 'sector-name', 'fuel_sector_interaction')
-    final_data = encode_features(data, ['state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction'])
-    return final_data
+    with mlflow.start_run(run_name="Data Preparation"):
+        data = load_data(filepath)
+        data = remove_outliers(data, 'value')
+        data = add_interactions(data, 'fuel-name', 'sector-name', 'fuel_sector_interaction')
+        final_data, transformer = encode_features(data, ['state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction'])
+        
+        # Log transformer
+        joblib.dump(transformer, 'encoder.pkl')
+        mlflow.log_artifact('encoder.pkl')
+        
+        return final_data

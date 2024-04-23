@@ -49,7 +49,7 @@ Phase 2 : Développement de l'API et du Modèle
         Préparer un script de formation initial.
 
     Création de l'API avec FastAPI.
-        Configurer les routes de base (/login, /predict, /metrics).
+        Configurer les routes de base (/token, /predict, /metrics).
         Intégrer l'authentification JWT dans FastAPI.
 
     Écrire des tests pour le modèle et l'API.
@@ -60,10 +60,10 @@ Phase 3 : MLOps et Automatisation
     Configurer MLflow pour le suivi des expériences.
         Établir une connexion avec une base de données pour stocker les résultats des expériences.
 
-    Mettre en place une base de données PostgreSQL.
+    Mettre en place une base de données SQLITE.
         Configurer les tables pour stocker les logs d'appels API et les prédictions.
 
-    Créer des dashboards avec Grafana ou Kibana.
+    Créer des dashboards avec streamlit.
         Connecter les dashboards à la base de données pour afficher les métriques et les logs.
 
     Automatiser l'entraînement du modèle.

@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import pandas as pd
 import joblib
 import secrets
+import sqlite3
 
 app = FastAPI()
 
@@ -34,6 +35,15 @@ class InputData(BaseModel):
     sector_name: str
     fuel_name: str
 
+def log_prediction(prediction, input_data, user):
+    conn = sqlite3.connect('../BDD/model_logs.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO prediction_logs (datetime, prediction, input_data, user) VALUES (datetime('now'), ?, ?, ?)",
+              (prediction, input_data, user))
+    conn.commit()
+    conn.close()
+
+
 # Authentifier l'utilisateur et retourner le token
 @app.post("/token")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -57,18 +67,20 @@ def predict(data: InputData, user: str = Depends(authenticate_token)):
     model = load_model('../model/trained_model.pkl')
     encoder = load_encoder('../model/encoder.pkl')
     
-    # Assurez-vous que les noms des champs correspondent à ceux attendus par l'encodeur et le modèle
     input_df = pd.DataFrame([{
         'year': data.year,
-        'state-name': data.state_name,  # Utiliser des tirets pour correspondre à la formation
-        'sector-name': data.sector_name,  # Utiliser des tirets pour correspondre à la formation
-        'fuel-name': data.fuel_name,  # Utiliser des tirets pour correspondre à la formation
-        'fuel_sector_interaction': data.fuel_name + "_" + data.sector_name  # Utiliser des tirets pour correspondre à la formation
+        'state-name': data.state_name,
+        'sector-name': data.sector_name,
+        'fuel-name': data.fuel_name,
+        'fuel_sector_interaction': data.fuel_name + "_" + data.sector_name
     }])
     
     features = ['year', 'state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction']
     X = encoder.transform(input_df[features])
     prediction = model.predict(X)
+    
+    # Log prediction
+    log_prediction(prediction[0], str(input_df.iloc[0].to_dict()), user)
     
     return {"prediction du CO2": prediction[0]}
 

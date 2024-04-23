@@ -1,5 +1,6 @@
 import pandas as pd
 import joblib
+import mlflow
 
 # Fonction pour charger le modèle entraîné
 def load_model(filepath):
@@ -30,12 +31,13 @@ def create_input_dataframe():
 
 # Fonction pour faire des prédictions
 def make_prediction(model, encoder, data):
-    """ Fait des prédictions avec le modèle donné sur les données fournies. """
-    # Encodage et préparation des features comme lors de l'entraînement
-    features = ['year', 'state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction']
-    data = data[features]  # Assurez-vous de sélectionner les features nécessaires
-    X = encoder.transform(data)  # Utilisation de l'encoder chargé pour transformer les données
-    return model.predict(X)
+    with mlflow.start_run(run_name="Prediction"):
+        features = ['year', 'state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction']
+        data = data[features]
+        X = encoder.transform(data)
+        predictions = model.predict(X)
+        mlflow.log_metric("prediction", predictions[0])
+        return predictions
 
 # Chargement du modèle et de l'encoder
 model_path = 'trained_model.pkl'

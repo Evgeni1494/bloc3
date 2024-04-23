@@ -10,7 +10,7 @@ jobs:
     - uses: actions/checkout@v4   # Correctement mis à jour pour utiliser la dernière version
 
     - name: Set up Python 3.8
-      uses: actions/setup-python@v4.20  # Utilise la version qui devrait être compatible avec Node.js 20
+      uses: actions/setup-python@v4  # Utilise la version qui devrait être compatible avec Node.js 20
       with:
         python-version: '3.8'
 

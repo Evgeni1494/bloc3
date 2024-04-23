@@ -1,24 +1,44 @@
-name: CI
+name: Python application
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4   # Correctement mis à jour pour utiliser la dernière version
-
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v4  # Utilise la version qui devrait être compatible avec Node.js 20
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
-
+        python-version: '3.x'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Run tests
+    - name: Run Tests
       run: |
+        pip install pytest
         pytest
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Deploy to Production
+      run: echo "Deploying to production"
+      # Ajouter ici les étapes de déploiement réelles, comme SSH, scp, Kubernetes, etc.

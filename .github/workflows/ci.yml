@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4  # Mise à jour vers v3
+    - uses: actions/checkout@v5  # Mise à jour vers v3
 
     - name: Set up Python 3.8
-      uses: actions/setup-python@v4  # Mise à jour vers v3
+      uses: actions/setup-python@v5  # Mise à jour vers v3
       with:
         python-version: '3.8'
 

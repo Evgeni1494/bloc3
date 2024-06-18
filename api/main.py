@@ -5,6 +5,7 @@ import pandas as pd
 import joblib
 import secrets
 import sqlite3
+import os
 
 app = FastAPI()
 
@@ -22,11 +23,11 @@ fake_users_db = {
 
 # Fonction pour charger le modèle entraîné
 def load_model(filepath):
-    return joblib.load(filepath)
+    return joblib.load(os.path.join(os.path.dirname(__file__), filepath))
 
 # Fonction pour charger l'encodeur
 def load_encoder(filepath):
-    return joblib.load(filepath)
+    return joblib.load(os.path.join(os.path.dirname(__file__), filepath))
 
 # Modèle Pydantic pour les données d'entrée pour la prédiction
 class InputData(BaseModel):
@@ -42,7 +43,6 @@ def log_prediction(prediction, input_data, user):
               (prediction, input_data, user))
     conn.commit()
     conn.close()
-
 
 # Authentifier l'utilisateur et retourner le token
 @app.post("/token")
@@ -64,8 +64,8 @@ def authenticate_token(token: str = Depends(oauth2_scheme)):
 
 @app.post("/predict/")
 def predict(data: InputData, user: str = Depends(authenticate_token)):
-    model = load_model('../model/trained_model.pkl')
-    encoder = load_encoder('../model/encoder.pkl')
+    model = load_model('model/trained_model.pkl')
+    encoder = load_encoder('model/encoder.pkl')
     
     input_df = pd.DataFrame([{
         'year': data.year,
@@ -83,7 +83,6 @@ def predict(data: InputData, user: str = Depends(authenticate_token)):
     log_prediction(prediction[0], str(input_df.iloc[0].to_dict()), user)
     
     return {"prediction du CO2": prediction[0]}
-
 
 if __name__ == "__main__":
     import uvicorn

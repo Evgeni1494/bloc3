@@ -5,4 +5,4 @@ joblib
 pydantic
 scikit-learn
 mlflow
-sqlite3
+gunicorn

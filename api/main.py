@@ -37,7 +37,8 @@ class InputData(BaseModel):
     fuel_name: str
 
 def log_prediction(prediction, input_data, user):
-    conn = sqlite3.connect('../BDD/model_logs.db')
+    db_path = os.path.join(os.path.dirname(__file__), '..', 'BDD', 'model_logs.db')
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("INSERT INTO prediction_logs (datetime, prediction, input_data, user) VALUES (datetime('now'), ?, ?, ?)",
               (prediction, input_data, user))

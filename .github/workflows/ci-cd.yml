@@ -26,6 +26,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install fastapi uvicorn pandas joblib pydantic pytest scikit-learn
 
+    - name: Verify database presence
+      run: |
+        ls -la BDD
+        sqlite3 BDD/model_logs.db "PRAGMA integrity_check;"
+
     - name: Run tests
       run: |
         pytest tests/test_main.py

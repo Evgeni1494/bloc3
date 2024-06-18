@@ -31,6 +31,11 @@ jobs:
         ls -la BDD
         sqlite3 BDD/model_logs.db "PRAGMA integrity_check;"
 
+    - name: Verify CSV file presence
+      run: |
+        ls -la archive
+
     - name: Run tests
       run: |
         pytest tests/test_main.py
+        pytest tests/test_data_preparation.py

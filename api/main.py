@@ -23,11 +23,11 @@ fake_users_db = {
 
 # Fonction pour charger le modèle entraîné
 def load_model(filepath):
-    return joblib.load(os.path.join(os.path.dirname(__file__), filepath))
+    return joblib.load(os.path.join(os.path.dirname(__file__), '..', filepath))
 
 # Fonction pour charger l'encodeur
 def load_encoder(filepath):
-    return joblib.load(os.path.join(os.path.dirname(__file__), filepath))
+    return joblib.load(os.path.join(os.path.dirname(__file__), '..', filepath))
 
 # Modèle Pydantic pour les données d'entrée pour la prédiction
 class InputData(BaseModel):

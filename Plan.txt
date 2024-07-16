@@ -89,3 +89,18 @@ Phase 5 : Déploiement et Tests Finale
 
     Révision et ajustements finaux.
         Réviser le projet basé sur les retours initiaux et optimiser les performances.
+
+
+
+
+
+
+Alors j'ai besoin que tu me donne les valeurs qui font partie de la requete api a partir des noms des states que je vais te donner : 
+
+http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}
+
+ta réponse devra etre structure de façon a avoir une réponse par ligne cet a dire :
+
+State : city name, state code, country code.
+
+Voici la liste des states. Pour la ville prend la ville centrale des states.

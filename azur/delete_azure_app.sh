@@ -3,7 +3,7 @@
 # Paramètres
 SUBSCRIPTION="Simplon HDF Roubaix Dev IA P1"
 RESOURCE_GROUP="END_Project_Evgeni"
-APP_SERVICE_PLAN="myAppServicePlan"
+APP_SERVICE_PLAN="EvgeniServicePlan"
 WEB_APP="myFastApiApp"
 
 # Définir l'abonnement

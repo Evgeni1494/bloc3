@@ -3,7 +3,7 @@
 # Paramètres
 SUBSCRIPTION="Simplon HDF Roubaix Dev IA P1"
 RESOURCE_GROUP="END_Project_Evgeni"
-APP_SERVICE_PLAN="myAppServicePlan"
+APP_SERVICE_PLAN="EvgeniServicePlan"
 WEB_APP="FastApiAppEvgeni"
 LOCATION="westeurope"
 RUNTIME="PYTHON|3.11"
@@ -11,7 +11,7 @@ RUNTIME="PYTHON|3.11"
 # Définir l'abonnement
 az account set --subscription "$SUBSCRIPTION"
 
-# Créer le plan de service App avec le SKU F1 (gratuit)
+# Créer le plan de service App avec le SKU B1 (gratuit)
 az appservice plan create \
   --name $APP_SERVICE_PLAN \
   --resource-group $RESOURCE_GROUP \

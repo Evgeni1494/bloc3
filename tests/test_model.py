@@ -1,10 +1,12 @@
 import pytest
 from model.model_training import train_model, evaluate_model
 from model.data_preparation import load_data, remove_outliers, add_interactions, encode_features
+import os
 
 def test_r2_score():
-    # Chemin vers le fichier de données
-    data_path = 'archive_test/emissions.csv'
+    # Chemin absolu vers le fichier de données
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_path = os.path.join(base_dir, 'archive', 'emissions.csv')
 
     # Processus complet de préparation des données
     data = load_data(data_path)

@@ -6,3 +6,5 @@ pydantic
 scikit-learn
 mlflow
 gunicorn
+pytest
+pytest-cov

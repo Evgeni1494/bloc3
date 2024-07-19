@@ -4,14 +4,14 @@ from model.data_preparation import load_data, remove_outliers, add_interactions,
 
 def test_r2_score():
     # Chemin vers le fichier de données
-    data_path = '../archive/emissions.csv'
+    data_path = 'archive_test/emissions.csv'
 
     # Processus complet de préparation des données
     data = load_data(data_path)
     data = remove_outliers(data, 'value')
     data = add_interactions(data, 'fuel-name', 'sector-name', 'fuel_sector_interaction')
     features = ['year', 'state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction']
-    X, encoder = encode_features(data[features], features)  # Notez que l'on récupère l'encoder ici
+    X, encoder = encode_features(data[features], features)
     y = data['value']
 
     # Entraîner le modèle
@@ -24,4 +24,4 @@ def test_r2_score():
     assert r2 > 0.55, f"R² is less than 0.55, got {r2}"
 
 if __name__ == "__main__":
-    pytest.main()
+    pytest.main(["-W", "ignore:DeprecationWarning"])

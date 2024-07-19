@@ -23,3 +23,24 @@ E3 “Mettre à disposition l’IA”
 - La documentation et l’API respectent les standards d’un modèle choisi (par exemple Open API*).
 
 - La documentation est communiquée dans un format qui respecte les recommandations d’accessibilité (par exemple celles de l’association Valentin Haüy ou de Microsoft).
+
+
+### C10 - dans sowechat-django :  /home/utilisateur/Documents/Certification_IA/END_Project/SoWeChat_django/manage.py
+
+### C11 - dans sowechat-django :  /home/utilisateur/Documents/Certification_IA/END_Project/SoWeChat_django/manage.py
+
+### C12. Programmer les tests automatisés d’un modèle d’intelligence artificielle en définissant les règles de validation des jeux de données, des étapes de préparation des données, d'entraînement, d’évaluation et de validation du modèle pour permettre son intégration en continu et garantir un niveau de qualité élevé.
+
+- L’ensemble des cas à tester sont listés et définis : la partie du modèle visée par le test, le périmètre du test et la stratégie de test.
+
+- Les outils de test (framework, bibliothèque, etc.) choisis sont cohérent avec l’environnement technique du projet.
+
+- Les tests sont intégrés et respectent la couverture souhaitée établie.
+
+- Les tests s'exécutent sans problème technique en environnement de test.
+
+- Les sources sont versionnées et accessibles depuis un dépôt Git distant (DVC, Gitlab...).
+
+- La documentation couvre la procédure d’installation de l’environnement de test, les dépendances installées, la procédure d’exécution des tests et de calcul de la couverture.
+
+- La documentation est communiquée dans un format qui respecte les recommandations d’accessibilité (par exemple celles de l’association Valentin Haüy ou de Microsoft).

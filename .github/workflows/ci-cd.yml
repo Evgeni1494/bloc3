@@ -37,7 +37,7 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest tests --cov=./model --cov-report=term-missing --cov-fail-under=50
+        addopts = --cov=./model --cov=./api --cov-config=.coveragerc --cov-report=term-missing --cov-fail-under=80
 
   deploy:
     needs: test

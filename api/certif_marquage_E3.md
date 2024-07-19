@@ -44,3 +44,5 @@ E3 “Mettre à disposition l’IA”
 - La documentation couvre la procédure d’installation de l’environnement de test, les dépendances installées, la procédure d’exécution des tests et de calcul de la couverture.
 
 - La documentation est communiquée dans un format qui respecte les recommandations d’accessibilité (par exemple celles de l’association Valentin Haüy ou de Microsoft).
+
+

@@ -42,13 +42,15 @@ def evaluate_model(model, X_test, y_test):
 
     return mse, r2
 
-def log_training_results(mse, r2):
-    conn = sqlite3.connect('../BDD/model_logs.db')
+
+def log_training_results(mse, r2, db_path='../BDD/model_logs.db'):
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("INSERT INTO training_logs (datetime, model_type, mse, r2) VALUES (datetime('now'), ?, ?, ?)", 
               ('Ridge', mse, r2))
     conn.commit()
     conn.close()
+
 
 def save_model(model, filename):
     # Save the trained model to a file

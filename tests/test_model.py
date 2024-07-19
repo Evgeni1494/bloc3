@@ -1,41 +1,27 @@
 import pytest
-from sklearn.datasets import make_regression
 from model.model_training import train_model, evaluate_model
-import sqlite3
+from model.data_preparation import load_data, remove_outliers, add_interactions, encode_features
 
-def setup_memory_db():
-    conn = sqlite3.connect(':memory:')
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE training_logs (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            datetime TEXT,
-            model_type TEXT,
-            mse REAL,
-            r2 REAL
-        )
-    ''')
-    conn.commit()
-    return conn
+def test_r2_score():
+    # Chemin vers le fichier de données
+    data_path = '../archive/emissions.csv'
 
-def test_model_r2():
-    # Setup in-memory database
-    conn = setup_memory_db()
-    
-    # Generate a random regression problem
-    X, y = make_regression(n_samples=100, n_features=10, noise=0.1)
-    
-    # Train the model
-    model, X_test, y_test = train_model(X, y, db_path=':memory:')
-    
-    # Evaluate the model
-    mse, r2 = evaluate_model(model, X_test, y_test, db_path=':memory:')
-    
-    # Check if R2 score is greater than 0.55
-    assert r2 > 0.55, f"R2 score is too low: {r2}"
-    
-    # Close the in-memory database connection
-    conn.close()
+    # Processus complet de préparation des données
+    data = load_data(data_path)
+    data = remove_outliers(data, 'value')
+    data = add_interactions(data, 'fuel-name', 'sector-name', 'fuel_sector_interaction')
+    features = ['year', 'state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction']
+    X, encoder = encode_features(data[features], features)  # Notez que l'on récupère l'encoder ici
+    y = data['value']
+
+    # Entraîner le modèle
+    model, X_test, y_test = train_model(X, y)
+
+    # Évaluer le modèle
+    mse, r2 = evaluate_model(model, X_test, y_test)
+
+    # Vérification du R²
+    assert r2 > 0.55, f"R² is less than 0.55, got {r2}"
 
 if __name__ == "__main__":
     pytest.main()

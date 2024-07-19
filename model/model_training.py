@@ -5,6 +5,7 @@ from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 import sqlite3
+import os
 
 def train_model(data, target):
     with mlflow.start_run():
@@ -43,7 +44,14 @@ def evaluate_model(model, X_test, y_test):
     return mse, r2
 
 def log_training_results(mse, r2):
-    conn = sqlite3.connect('../BDD/model_logs.db')
+    # Utiliser un chemin absolu pour la base de données
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    db_path = os.path.join(base_dir, 'BDD', 'model_logs.db')
+    
+    # Créer le répertoire s'il n'existe pas
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("INSERT INTO training_logs (datetime, model_type, mse, r2) VALUES (datetime('now'), ?, ?, ?)", 
               ('Ridge', mse, r2))

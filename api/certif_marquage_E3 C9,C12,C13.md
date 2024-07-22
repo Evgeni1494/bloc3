@@ -45,4 +45,20 @@ E3 “Mettre à disposition l’IA”
 
 - La documentation est communiquée dans un format qui respecte les recommandations d’accessibilité (par exemple celles de l’association Valentin Haüy ou de Microsoft).
 
+### C13. Créer une chaîne de livraison continue d’un modèle d’intelligence artificielle en installant les outils et en appliquant les configuration souhaitées, dans le respect du cadre imposé par le projet et dans une approche MLOps*, pour automatiser les étapes de validation, de test, de packaging* et de déploiement du modèle.
 
+- La documentation pour l’utilisation de la chaîne couvre toutes les étapes, les tâches et tous les déclencheurs disponibles.
+
+- Les déclencheurs sont intégrés comme préalablement définis.
+
+- Le ou les fichiers de configuration de la chaîne sont correctement reconnus et exécutés par le système selon les déclencheurs configurés.
+
+- L’étape de test des données est intégrée à la chaîne et s’exécute sans erreur.
+
+- La ou les étapes de test, d'entraînement et de validation du modèle sont intégrées à la chaîne et s'exécutent sans erreur.
+
+- Les sources de la chaîne sont versionnées et accessibles depuis le dépôt Git distant du projet.
+
+- La documentation de la chaîne de livraison continue couvre la procédure d’installation, de configuration et de test de la chaîne.
+
+- La documentation est communiquée dans un format qui respecte les recommandations d’accessibilité (par exemple celles de l’association Valentin Haüy ou de Microsoft).

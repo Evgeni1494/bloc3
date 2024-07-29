@@ -8,6 +8,16 @@ import sqlite3
 import os
 
 def train_model(data, target):
+    """
+    Train a Ridge regression model on the provided data and log the training process with MLflow.
+
+    Args:
+        data (DataFrame or array-like): The feature data for training.
+        target (Series or array-like): The target variable for training.
+
+    Returns:
+        tuple: The trained model, test features, and test targets.
+    """
     with mlflow.start_run():
         # Splitting the data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=0)
@@ -31,6 +41,17 @@ def train_model(data, target):
         return model, X_test, y_test
 
 def evaluate_model(model, X_test, y_test):
+    """
+    Evaluate the model on the test data and log the results.
+
+    Args:
+        model (Estimator): The trained model.
+        X_test (DataFrame or array-like): The test features.
+        y_test (Series or array-like): The test targets.
+
+    Returns:
+        tuple: The mean squared error and R2 score of the model on the test data.
+    """
     # Making predictions on the test data
     y_pred = model.predict(X_test)
     
@@ -44,11 +65,18 @@ def evaluate_model(model, X_test, y_test):
     return mse, r2
 
 def log_training_results(mse, r2):
-    # Utiliser un chemin absolu pour la base de données
+    """
+    Log the training results to the SQLite database.
+
+    Args:
+        mse (float): The mean squared error of the model.
+        r2 (float): The R2 score of the model.
+    """
+    # Use an absolute path for the database
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     db_path = os.path.join(base_dir, 'BDD', 'model_logs.db')
     
-    # Créer le répertoire s'il n'existe pas
+    # Create the directory if it does not exist
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
     
     conn = sqlite3.connect(db_path)
@@ -59,9 +87,16 @@ def log_training_results(mse, r2):
     conn.close()
 
 def save_model(model, filename):
+    """
+    Save the trained model to a file and log it as an artifact in MLflow.
+
+    Args:
+        model (Estimator): The trained model.
+        filename (str): The file path to save the model.
+    """
     # Save the trained model to a file
     joblib.dump(model, filename)
-    print(f"Modèle sauvegardé sous : {filename}")
+    print(f"Model saved as: {filename}")
     
     # Logging the model file as an artifact in MLflow
     mlflow.log_artifact(filename)

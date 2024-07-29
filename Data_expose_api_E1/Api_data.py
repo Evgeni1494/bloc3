@@ -10,8 +10,10 @@ app = FastAPI()
 
 DATABASE_PATH = 'data_expo_bdd/exposition_database.db'
 
+# OAuth2 configuration with token retrieval URL
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+# Simulate a user database
 fake_users_db = {
     "admin": {
         "username": "admin",
@@ -21,11 +23,32 @@ fake_users_db = {
 }
 
 def fake_decode_token(token):
+    """
+    Fake token decoder for user authentication.
+
+    Args:
+        token (str): The token to decode.
+
+    Returns:
+        dict: The decoded user information if the token is valid, None otherwise.
+    """
     if token in [user["token"] for user in fake_users_db.values()]:
         return {"sub": token}
     return None
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
+    """
+    Retrieve the current authenticated user based on the provided token.
+
+    Args:
+        token (str): The OAuth2 token.
+
+    Returns:
+        dict: The user information if the token is valid.
+
+    Raises:
+        HTTPException: If the token is invalid.
+    """
     user = fake_decode_token(token)
     if not user:
         raise HTTPException(
@@ -37,6 +60,18 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 @app.post("/token")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    """
+    Authenticate the user and return a token.
+
+    Args:
+        form_data (OAuth2PasswordRequestForm): The form data containing username and password.
+
+    Returns:
+        dict: The access token and token type.
+
+    Raises:
+        HTTPException: If the username or password is incorrect.
+    """
     user_dict = fake_users_db.get(form_data.username)
     if not user_dict or not secrets.compare_digest(form_data.password, user_dict["password"]):
         raise HTTPException(
@@ -47,12 +82,30 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": user_dict["token"], "token_type": "bearer"}
 
 class QueryParams(BaseModel):
+    """
+    Pydantic model for query parameters.
+
+    Attributes:
+        year (Optional[int]): Year of the data.
+        state_name (Optional[str]): Name of the state.
+        sector_name (Optional[str]): Sector name.
+        fuel_name (Optional[str]): Fuel name.
+    """
     year: Optional[int] = Query(None, description="Year of the data")
     state_name: Optional[str] = Query(None, description="Name of the state")
     sector_name: Optional[str] = Query(None, description="Sector name")
     fuel_name: Optional[str] = Query(None, description="Fuel name")
 
 def query_database(query_params: QueryParams):
+    """
+    Query the database based on the provided query parameters.
+
+    Args:
+        query_params (QueryParams): The query parameters.
+
+    Returns:
+        list: The query results as a list of dictionaries.
+    """
     query = "SELECT * FROM emissions WHERE 1=1"
     params = []
 
@@ -85,6 +138,19 @@ def get_emissions(
     fuel_name: Optional[str] = Query('any', description="Fuel name"),
     token: str = Depends(oauth2_scheme)
 ):
+    """
+    Retrieve emissions data based on query parameters.
+
+    Args:
+        year (Optional[str]): Year of the data.
+        state_name (Optional[str]): Name of the state.
+        sector_name (Optional[str]): Sector name.
+        fuel_name (Optional[str]): Fuel name.
+        token (str): The OAuth2 token for authentication.
+
+    Returns:
+        list: The emissions data matching the query parameters.
+    """
     query_params = QueryParams(
         year=year,
         state_name=state_name,

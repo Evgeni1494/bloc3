@@ -2,24 +2,43 @@ import pandas as pd
 import joblib
 import mlflow
 
-# Fonction pour charger le modèle entraîné
 def load_model(filepath):
-    """ Charge le modèle entraîné depuis un fichier .pkl. """
+    """
+    Load the trained model from a .pkl file.
+
+    Args:
+        filepath (str): The path to the model file.
+
+    Returns:
+        The loaded model.
+    """
     return joblib.load(filepath)
 
-# Fonction pour charger l'encodeur
 def load_encoder(filepath):
-    """ Charge l'encodeur depuis un fichier .pkl. """
+    """
+    Load the encoder from a .pkl file.
+
+    Args:
+        filepath (str): The path to the encoder file.
+
+    Returns:
+        The loaded encoder.
+    """
     return joblib.load(filepath)
 
-# Fonction pour créer un DataFrame à partir des entrées utilisateur
 def create_input_dataframe():
-    """ Crée un DataFrame à partir des entrées utilisateur. """
-    year = input("Entrez l'année (par exemple, 2020): ")
-    state_name = input("Entrez le nom de l'État (par exemple, California): ")
-    sector_name = input("Entrez le nom du secteur (par exemple, Residential): ")
-    fuel_name = input("Entrez le nom du combustible (par exemple, Gasoline): ")
-    # Création du DataFrame
+    """
+    Create a DataFrame from user inputs.
+
+    Returns:
+        DataFrame: The created DataFrame with user input data.
+    """
+    year = input("Enter the year (e.g., 2020): ")
+    state_name = input("Enter the state name (e.g., California): ")
+    sector_name = input("Enter the sector name (e.g., Residential): ")
+    fuel_name = input("Enter the fuel name (e.g., Gasoline): ")
+
+    # Create the DataFrame
     data = pd.DataFrame({
         'year': [year],
         'state-name': [state_name],
@@ -29,8 +48,18 @@ def create_input_dataframe():
     })
     return data
 
-# Fonction pour faire des prédictions
 def make_prediction(model, encoder, data):
+    """
+    Make predictions using the trained model and encoder.
+
+    Args:
+        model: The trained model.
+        encoder: The encoder used for preprocessing.
+        data (DataFrame): The input data for making predictions.
+
+    Returns:
+        array: The predictions made by the model.
+    """
     with mlflow.start_run(run_name="Prediction"):
         features = ['year', 'state-name', 'sector-name', 'fuel-name', 'fuel_sector_interaction']
         data = data[features]
@@ -39,15 +68,15 @@ def make_prediction(model, encoder, data):
         mlflow.log_metric("prediction", predictions[0])
         return predictions
 
-# Chargement du modèle et de l'encoder
+# Load the model and the encoder
 model_path = 'trained_model.pkl'
 encoder_path = 'encoder.pkl'
 model = load_model(model_path)
 encoder = load_encoder(encoder_path)
 
-# Création de l'entrée utilisateur
+# Create user input DataFrame
 input_data = create_input_dataframe()
 
-# Prédiction
+# Make prediction
 predictions = make_prediction(model, encoder, input_data)
-print("Prédiction de la valeur :", predictions)
+print("Predicted value:", predictions[0])

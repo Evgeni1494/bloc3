@@ -2,7 +2,7 @@
 
 # Paramètres
 SUBSCRIPTION="Simplon HDF Roubaix Dev IA P1"
-RESOURCE_GROUP="END_Project_Evgeni"
+RESOURCE_GROUP="End_project_evgeni"
 APP_SERVICE_PLAN="EvgeniServicePlan"
 WEB_APP="FastApiAppEvgeni"
 LOCATION="westeurope"

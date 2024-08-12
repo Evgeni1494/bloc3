@@ -27,7 +27,7 @@ def fake_decode_token(token):
     Fake token decoder for user authentication.
 
     Args:
-        token (str): The token to decode.
+        token (str): The token to decode
 
     Returns:
         dict: The decoded user information if the token is valid, None otherwise.

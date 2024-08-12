@@ -4,7 +4,7 @@
 SUBSCRIPTION="Simplon HDF Roubaix Dev IA P1"
 RESOURCE_GROUP="End_project_evgeni"
 APP_SERVICE_PLAN="EvgeniServicePlan"
-WEB_APP="myFastApiApp"
+WEB_APP="FastApiAppEvgeni"
 
 # Définir l'abonnement
 az account set --subscription "$SUBSCRIPTION"

@@ -148,9 +148,10 @@ def main():
                 longitude REAL
             )
         ''')
-        # Create table emissions
+        # Create table emissions with an emission_id as the primary key
         c.execute('''
             CREATE TABLE IF NOT EXISTS emissions (
+                emission_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 year INTEGER,
                 state_name TEXT,
                 sector_name TEXT,
